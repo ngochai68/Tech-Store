@@ -16,7 +16,7 @@
       background-color: $color-8;
       padding-left: 30px;
       animation: expandInput 0.5s forwards;
-      ::placeholder {
+      &::placeholder {
         font-size: 14px;
         font-weight: 400;
         color: $color-5;
