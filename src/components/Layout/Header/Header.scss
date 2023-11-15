@@ -1,0 +1,119 @@
+@import '@sass/base';
+
+.header {
+  width: 100%;
+  position: sticky;
+  .header__top {
+    background: $color-6;
+    .header__top-content {
+      height: 44px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      font-weight: 600;
+      font-size: 12px;
+      .header__work-time {
+        display: flex;
+        cursor: pointer;
+        align-items: center;
+        .header__work-time-day {
+          color: $color-5;
+        }
+        .header__work-time-hour {
+          color: $color_4;
+          margin-left: 5px;
+        }
+        svg {
+          margin-left: 3px;
+        }
+      }
+      .header__address-contact {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        .header__address-text {
+          color: $color_3;
+        }
+        .header__contact-text {
+          color: $color-4;
+          border-bottom: 2px solid $color_4;
+          margin-left: 5px;
+          margin-bottom: -2px;
+        }
+      }
+      .header__phone-social {
+        color: $color-4;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        .header__facebook-link {
+          margin-left: 14px;
+        }
+        .header__instagram-link {
+          margin-left: 8px;
+        }
+      }
+    }
+  }
+  .header__bottom {
+    background-color: $color-4;
+    border-bottom: 1px solid $color-7;
+    .header__bottom-content {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      height: 92px;
+      .header__bottom-left {
+        height: 100%;
+        align-items: center;
+        display: flex;
+
+        .header__logo {
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          width: 85px;
+          height: 69px;
+          margin-right: 30px;
+        }
+        .header__nav {
+          list-style: none;
+          display: flex;
+          gap: 25px;
+          height: 100%;
+          li {
+            height: 100%;
+            .nav__item {
+              height: 100%;
+              display: flex;
+              align-items: center;
+              color: $color_2;
+              font-size: 14px;
+              font-weight: 600;
+              text-decoration: none;
+            }
+            .nav__item--special {
+              span {
+                border-radius: 50px;
+                border-width: 2px;
+                border-style: solid;
+                padding: 8px 26px 8px 26px;
+                border-color: $color_1;
+                color: $color-1;
+              }
+            }
+          }
+        }
+      }
+
+      .header__search-cart-login {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        .header__search {
+          cursor: pointer;
+        }
+      }
+    }
+  }
+}
