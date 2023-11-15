@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Tooltip } from 'antd';
-import WorkTooltip from './WorkTooltip';
-import InputSearchExpanded from './InputSearchExpanded';
+import WorkTooltip from './components/WorkTooltip';
+import InputSearchExpanded from './components/InputSearchExpanded';
 import './Header.scss';
 
 const Header: React.FC = () => {
