@@ -1,6 +1,6 @@
 // Home/index.tsx
 import React from 'react';
-import SlidingBanner from './SlidingBanner';
+import SlidingBanner from './components/SlidingBanner';
 
 import './Home.scss';
 
