@@ -1,0 +1,23 @@
+/* Trong file CSS của bạn */
+.card-cover {
+    position: relative;
+    width: 100%;
+  }
+  
+  .in-stock {
+    position: absolute;
+    top: 0;
+    left: 0;
+    background-color: rgba(255, 255, 255, 0.7);
+    padding: 4px;
+  }
+  
+  .stock-status {
+    position: relative;
+    padding-top: 20px; /* Điều chỉnh khoảng cách giữa in-stock và thông tin sản phẩm */
+  }
+  
+  .stock-status p {
+    margin-bottom: 4px;
+  }
+  
