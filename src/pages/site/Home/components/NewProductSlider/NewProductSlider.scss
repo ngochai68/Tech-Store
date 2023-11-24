@@ -1,0 +1,13 @@
+.product-slider {
+  .slick-list {
+    .slick-track {
+      .slick-slide {
+        > div {
+          > div {
+            display: block !important;
+          }
+        }
+      }
+    }
+  }
+}

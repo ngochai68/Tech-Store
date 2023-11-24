@@ -3,7 +3,7 @@ import './assets/sass/_base.scss';
 import './assets/sass/reset.css';
 import './assets/sass/tailwind.css';
 import './assets/sass/App.css';
-import RootLayout from './components/Layout/RootLayout';
+import RootLayout from './pages/site/components/Layout/RootLayout';
 import Home from './pages/site/Home';
 
 function App() {
