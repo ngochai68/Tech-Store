@@ -16,6 +16,7 @@
       }
     }
     .product-item__image-wrapper {
+      cursor: pointer;
       width: 150px;
       height: 150px;
       margin: auto;
@@ -45,6 +46,7 @@
       }
     }
     .product-item__title {
+      cursor: pointer;
       display: -webkit-box;
       -webkit-line-clamp: 2;
       -webkit-box-orient: vertical;
@@ -73,6 +75,7 @@
     }
 
     .product-item__favorite-compare {
+      cursor: pointer;
       display: none;
       flex-direction: column;
       gap: 5px;
@@ -97,7 +100,6 @@
   }
   &:hover {
     background-color: #ffffff;
-    cursor: pointer;
     box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.2);
     transform: translateY(-5px);
     .product-item__card {
