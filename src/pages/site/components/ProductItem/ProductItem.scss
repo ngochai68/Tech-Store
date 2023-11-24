@@ -1,7 +1,9 @@
 .product-item {
-  transition: all 0.3s ease;
+  position: relative;
+
   .product-item__card {
     padding: 0 25px;
+    transition: all 0.3s ease;
     .product-item__status {
       display: flex;
       align-items: center;
@@ -99,11 +101,15 @@
     }
   }
   &:hover {
-    background-color: #ffffff;
-    box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.2);
-    transform: translateY(-5px);
     .product-item__card {
+      position: absolute;
+      background-color: #ffffff;
+      box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.2);
+      transform: translateY(-5px);
       .product-item__favorite-compare {
+        display: flex;
+      }
+      .add-to-cart {
         display: flex;
       }
     }
