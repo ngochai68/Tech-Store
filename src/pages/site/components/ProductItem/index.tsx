@@ -1,7 +1,6 @@
 import React from 'react';
 import { InStockIcon, FavoriteIcon, CompareIcon, CheckAvailabilityIcon } from '../ProductIcon';
 import { renderRating, formatPrice } from '../../../../utils/ProductUtils';
-import AddToCartButton from '../Button/AddToCartButton';
 
 import './ProductItem.scss';
 
@@ -42,7 +41,6 @@ const ProductItem: React.FC<ProductItemProps> = ({
           <div className='product-item__original-price'>{formatPrice(originalPrice)}</div>
           <div className='product-item__sale-price'>{formatPrice(salePrice)}</div>
         </div>
-        <AddToCartButton />
         <div className='product-item__favorite-compare'>
           <FavoriteIcon />
           <CompareIcon />

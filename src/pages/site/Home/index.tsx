@@ -5,7 +5,7 @@ import './Home.scss';
 
 const products = [
   {
-    title: 'Lenovo IdeaPad 3i 15.6in i5 8GB 512GB Laptop + Microsoft 365',
+    title: 'Lenovo IdeaPad 3i 15.6in i5 8GB 512GB Laptop',
     originalPrice: 999,
     salePrice: 1399,
     imageUrl:
