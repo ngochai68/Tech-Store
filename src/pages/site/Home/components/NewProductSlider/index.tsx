@@ -2,6 +2,7 @@ import React from 'react';
 import Slider from 'react-slick';
 import ProductItem from '../../../components/ProductItem';
 import { PrevArrow, NextArrow } from '../HomeIcon';
+import { Link } from 'react-router-dom';
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
 import './NewProductSlider.scss';
@@ -57,8 +58,14 @@ const NewProductSlider: React.FC<NewProductSliderProps> = ({ products }) => {
   };
 
   return (
-    <div className='product-slider'>
-      <Slider {...settings}>
+    <div className='new-products'>
+      <div className='new-products__header'>
+        <h3 className='new-products__title'>New Products</h3>
+        <Link to='/#' className='new-products__button'>
+          See All New Products
+        </Link>
+      </div>
+      <Slider className='product-slider' {...settings}>
         {products.map((product, index) => (
           <div key={index}>
             <ProductItem
