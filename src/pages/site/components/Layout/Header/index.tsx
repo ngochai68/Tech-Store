@@ -15,7 +15,13 @@ const Header: React.FC = () => {
     <header className='header'>
       <div className='header__top'>
         <div className='header__top-content container'>
-          <Tooltip title={<WorkTooltip />} placement='bottomLeft' color='white' className='header__work-time'>
+          <Tooltip
+            overlayClassName='header__work-time-tooltip'
+            title={<WorkTooltip />}
+            placement='bottomLeft'
+            color='white'
+            className='header__work-time'
+          >
             <span className='header__work-time-day'>Mon-Thu:</span>
             <span className='header__work-time-hour'> 9:00 AM - 5:30 PM</span>
             <svg width={16} height={15} viewBox='0 0 16 15' fill='none' xmlns='http://www.w3.org/2000/svg'>

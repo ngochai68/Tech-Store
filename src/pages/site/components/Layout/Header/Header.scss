@@ -117,3 +117,10 @@
     }
   }
 }
+
+.header__work-time-tooltip {
+  .ant-tooltip-inner {
+    padding: 0;
+    border-radius: 0;
+  }
+}
