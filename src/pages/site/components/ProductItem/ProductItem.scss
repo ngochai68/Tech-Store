@@ -26,18 +26,33 @@
         object-fit: contain;
       }
     }
-    .product-item__rating {
+    .product-item__rating-reviews {
       display: flex;
       align-items: center;
       height: 30px;
       gap: 9.16px;
-      .product-item__rating-stars {
-        height: 100%;
+      .product-item__rating {
         display: flex;
-        align-items: center;
-        justify-content: flex-start;
+        color: #e9a426;
+        .ant-rate-star {
+          &:not(:last-child) {
+            margin-inline-end: 2px;
+          }
+        }
+        .ant-rate-star-zero {
+          svg {
+            color: #cacdd8;
+          }
+        }
+        .ant-rate-star-half {
+          .ant-rate-star-second {
+            svg {
+              color: #cacdd8;
+            }
+          }
+        }
       }
-      .product-item__rating-text {
+      .product-item__reviews-text {
         height: 100%;
         color: #a2a6b0;
         font-size: 12px;

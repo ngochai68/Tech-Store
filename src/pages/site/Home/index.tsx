@@ -11,7 +11,7 @@ const products = [
     imageUrl:
       'https://product.hstatic.net/200000722513/product/lg-gram-2023-fix_28f08b20a1724869a1d5da4920697371_medium.png',
     isAvailable: true,
-    rating: 4,
+    rating: 4.5,
     reviewsCount: 4
   },
   {
