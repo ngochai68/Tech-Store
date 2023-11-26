@@ -3,25 +3,18 @@ import Slider from 'react-slick';
 import ProductItem from '../../../components/ProductItem';
 import { PrevArrow, NextArrow } from '../HomeIcon';
 import { Link } from 'react-router-dom';
+import { useGetLatestProductsQuery } from '../../../client.service';
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
 import './NewProductSlider.scss';
 
-interface Product {
-  title: string;
-  originalPrice: number;
-  salePrice: number;
-  imageUrl: string;
-  isAvailable: boolean;
-  rating: number;
-  reviewsCount: number;
-}
+const NewProductSlider: React.FC = () => {
+  const { data: products, isLoading, isError } = useGetLatestProductsQuery(11); // Số lượng sản phẩm bạn muốn lấy
 
-interface NewProductSliderProps {
-  products: Product[];
-}
+  // Xử lý trường hợp loading hoặc error
+  if (isLoading) return <div>Loading...</div>;
+  if (isError || !products) return <div>Error occurred or no products available</div>;
 
-const NewProductSlider: React.FC<NewProductSliderProps> = ({ products }) => {
   const settings = {
     infinite: true,
     speed: 500,
@@ -66,17 +59,9 @@ const NewProductSlider: React.FC<NewProductSliderProps> = ({ products }) => {
         </Link>
       </div>
       <Slider className='product-slider' {...settings}>
-        {products.map((product, index) => (
-          <div key={index}>
-            <ProductItem
-              title={product.title}
-              originalPrice={product.originalPrice}
-              salePrice={product.salePrice}
-              imageUrl={product.imageUrl}
-              isAvailable={product.isAvailable}
-              rating={product.rating}
-              reviewsCount={product.reviewsCount}
-            />
+        {products.map((product) => (
+          <div key={product.product_id}>
+            <ProductItem productItem={product} />
           </div>
         ))}
       </Slider>
