@@ -26,7 +26,11 @@ const ProductItem: React.FC<ProductItemProps> = ({ productItem }) => {
       <div className='product-item__card'>
         <div className='product-item__status'>
           {isAvailable ? <InStockIcon /> : <CheckAvailabilityIcon />}
-          <span className='product-item__status-text'>{image_url ? 'in stock' : 'check availability'}</span>
+          <span
+            className={`product-item__status-text ${!isAvailable ? 'product-item__status-text--out-of-stock' : ''}`}
+          >
+            {isAvailable ? 'in stock' : 'check availability'}
+          </span>
         </div>
         <div className='product-item__image-wrapper'>
           <img className='product-item__image' alt={title} src={image_url} />

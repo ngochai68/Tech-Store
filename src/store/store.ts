@@ -3,17 +3,21 @@ import { rtkQueryErrorLogger } from '../middleware/middleware';
 import { setupListeners } from '@reduxjs/toolkit/query';
 import clientReducer from '../pages/site/client.slice';
 import { clientApi } from '../pages/site/client.service';
-// Import các reducers khác nếu bạn có
+import categoriesReducer from '../pages/admin/Categories/categories.slice';
+import { categoriesApi } from '../pages/admin/Categories/categories.service';
 
 const rootReducer = combineReducers({
   client: clientReducer,
-  [clientApi.reducerPath]: clientApi.reducer
-  // Thêm các reducers khác ở đây
+  [clientApi.reducerPath]: clientApi.reducer,
+
+  categories: categoriesReducer,
+  [categoriesApi.reducerPath]: categoriesApi.reducer
 });
 
 export const store = configureStore({
   reducer: rootReducer,
-  middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(clientApi.middleware, rtkQueryErrorLogger)
+  middleware: (getDefaultMiddleware) =>
+    getDefaultMiddleware().concat(clientApi.middleware, categoriesApi.middleware, rtkQueryErrorLogger)
 });
 
 // Cài đặt listeners cho các tính năng như refetchOnFocus/refetchOnReconnect

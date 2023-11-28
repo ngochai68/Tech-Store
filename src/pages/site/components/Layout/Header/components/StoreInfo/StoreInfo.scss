@@ -1,55 +1,53 @@
 @import '@sass/base';
 
-
-
-.shop-info {
+.header__store-info {
   color: $color_2;
   padding-top: 11.32px;
-  .shop-info__hours {
+  .header__store-info-hours {
     display: flex;
     padding-bottom: 16px;
-    .shop-info__icon-container {
+    .header__store-info-icon-container {
       margin-right: 7px;
       padding-left: 8px;
     }
-    .shop-info__text {
+    .header__store-info-text {
       font-size: 13px;
       font-weight: 600;
-      .shop-info__text-title {
+      .header__store-info-text-title {
         font-size: 12px;
         line-height: 140%;
         font-weight: 400;
       }
-      .shop-info__days {
+      .header__store-info-days {
         color: $color_5;
-        .shop-info__time {
+        .header__store-info-time {
           color: $color_2;
         }
       }
     }
   }
-  .shop-info__location {
+  .header__store-info-location {
     display: flex;
     align-items: center;
     border-bottom: 1px solid $color-7;
     border-top: 1px solid $color-7;
     padding-top: 11px;
     padding-bottom: 10px;
-    .shop-info__icon-container {
+    .header__store-info-icon-container {
       margin-right: 6px;
       padding-left: 8px;
     }
-    .shop-info__text {
+    .header__store-info-text {
       font-size: 13px;
       font-weight: 400;
       line-height: 140%;
     }
   }
-  .shop-info__contact {
+  .header__store-info-contact {
     padding-left: 20px;
     padding-top: 11px;
     padding-bottom: 17px;
-    .shop-info__text {
+    .header__store-info-text {
       font-size: 13px;
       font-weight: 400;
       line-height: 140%;

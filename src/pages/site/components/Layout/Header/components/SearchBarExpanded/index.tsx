@@ -1,21 +1,21 @@
 import React from 'react';
 import { Input } from 'antd';
-import './InputSearchExpanded.scss';
+import './SearchBarExpanded.scss';
 
-type InputSearchExpandedProps = {
+type SearchBarExpandedProps = {
   onClose: () => void;
 };
 
-const InputSearchExpanded: React.FC<InputSearchExpandedProps> = ({ onClose }) => {
+const SearchBarExpanded: React.FC<SearchBarExpandedProps> = ({ onClose }) => {
   const handleClose = () => {
     onClose();
   };
 
   return (
-    <div className='search-expanded'>
-      <div className='search-expanded__container'>
-        <Input className='search-expanded__input-search' placeholder='Search entiere store here...' />
-        <div className='search-expanded__icon-search'>
+    <div className='header__search-bar-expanded'>
+      <div className='header__search-bar-container'>
+        <Input className='header__search-input' placeholder='Search entiere store here...' />
+        <div className='header__search-icon'>
           <svg
             className='gg-search__group'
             width={16}
@@ -34,7 +34,7 @@ const InputSearchExpanded: React.FC<InputSearchExpandedProps> = ({ onClose }) =>
         </div>
       </div>
 
-      <div className='search-expanded__icon-close' onClick={handleClose}>
+      <div className='header__search-close-icon' onClick={handleClose}>
         <svg
           className='gg-search'
           width={19}
@@ -51,4 +51,4 @@ const InputSearchExpanded: React.FC<InputSearchExpandedProps> = ({ onClose }) =>
   );
 };
 
-export default InputSearchExpanded;
+export default SearchBarExpanded;
