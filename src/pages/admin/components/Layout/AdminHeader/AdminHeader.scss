@@ -1,5 +1,9 @@
-.admin-header__page-title {
-  font-size: 25px;
-  font-weight: 600;
-  margin-left: 20px;
+.admin-header {
+  display: flex;
+  align-items: center;
+  .admin-header__page-title {
+    font-size: 25px;
+    font-weight: 600;
+    margin-left: 20px;
+  }
 }

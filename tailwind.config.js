@@ -13,6 +13,7 @@ export default {
         '2xl': '1469px'
       }
     },
+
     extend: {}
   },
   plugins: []

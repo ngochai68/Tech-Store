@@ -1,14 +1,17 @@
 import React from 'react';
-import { Table, Button, Space } from 'antd';
+import { Table, Button, Space, notification } from 'antd';
 import { ColumnType } from 'antd/es/table';
 import moment from 'moment';
 import { ICategory } from '../../../../../types/category.type';
+import { useDeleteCategoryMutation } from '../../categories.service';
 
 interface CategoriesTableProps {
   categories: ICategory[];
 }
 
 const CategoriesTable: React.FC<CategoriesTableProps> = ({ categories }) => {
+  const [deleteCategory] = useDeleteCategoryMutation();
+
   // Hàm xử lý khi nhấn nút Chỉnh sửa
   const handleEdit = (categoryId: number) => {
     console.log('Chỉnh sửa danh mục với ID:', categoryId);
@@ -17,8 +20,23 @@ const CategoriesTable: React.FC<CategoriesTableProps> = ({ categories }) => {
 
   // Hàm xử lý khi nhấn nút Xóa
   const handleDelete = (categoryId: number) => {
-    console.log('Xóa danh mục với ID:', categoryId);
-    // Xử lý xóa tại đây
+    deleteCategory(categoryId)
+      .unwrap()
+      .then(() => {
+        // Hiển thị thông báo thành công
+        notification.success({
+          message: 'Category Deleted',
+          description: `The category with ID ${categoryId} has been successfully deleted.`
+        });
+      })
+      .catch((error) => {
+        // Hiển thị thông báo lỗi
+        notification.error({
+          message: 'Error Deleting Category',
+          description: `There was an error deleting the category with ID ${categoryId}.`
+        });
+        console.error('Error deleting category:', error);
+      });
   };
 
   const columns: ColumnType<ICategory>[] = [
