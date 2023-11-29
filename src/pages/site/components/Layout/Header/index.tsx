@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Tooltip } from 'antd';
-import WorkTooltip from './components/WorkTooltip';
-import InputSearchExpanded from './components/InputSearchExpanded';
+import StoreInfo from './components/StoreInfo';
+import InputSearchExpanded from './components/SearchBarExpanded';
 import './Header.scss';
 
 const Header: React.FC = () => {
@@ -17,7 +17,7 @@ const Header: React.FC = () => {
         <div className='header__top-content container'>
           <Tooltip
             overlayClassName='header__work-time-tooltip'
-            title={<WorkTooltip />}
+            title={<StoreInfo />}
             placement='bottomLeft'
             color='white'
             className='header__work-time'

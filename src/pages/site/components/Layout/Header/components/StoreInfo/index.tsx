@@ -1,11 +1,11 @@
 import React from 'react';
-import './WorkTooltip.scss';
+import './StoreInfo.scss';
 
-const WorkTooltip: React.FC = () => {
+const StoreInfo: React.FC = () => {
   return (
-    <div className='shop-info'>
-      <div className='shop-info__hours'>
-        <div className='shop-info__icon-container'>
+    <div className='header__store-info'>
+      <div className='header__store-info-hours'>
+        <div className='header__store-info-icon-container'>
           <svg
             className='bx-bx-time'
             width={35}
@@ -22,21 +22,21 @@ const WorkTooltip: React.FC = () => {
             <path d='M17.5 12.25V18.375H23.625' stroke='#0156FF' strokeWidth='2.3' strokeLinecap='round' />
           </svg>
         </div>
-        <div className='shop-info__text'>
-          <span className='shop-info__text-title'>We are open:</span>
-          <p className='shop-info__days'>
-            Mon-Thu: <span className='shop-info__time'>9:00 AM - 5:30 PM</span>
+        <div className='header__store-info-text'>
+          <span className='header__store-info-text-title'>We are open:</span>
+          <p className='header__store-info-days'>
+            Mon-Thu: <span className='header__store-info-time'>9:00 AM - 5:30 PM</span>
           </p>
-          <p className='shop-info__days'>
-            Fr: <span className='shop-info__time'>9:00 AM - 6:00 PM</span>
+          <p className='header__store-info-days'>
+            Fr: <span className='header__store-info-time'>9:00 AM - 6:00 PM</span>
           </p>
-          <p className='shop-info__days'>
-            Sat: <span className='shop-info__time'>11:00 AM - 5:00 PM</span>
+          <p className='header__store-info-days'>
+            Sat: <span className='header__store-info-time'>11:00 AM - 5:00 PM</span>
           </p>
         </div>
       </div>
-      <div className='shop-info__location'>
-        <div className='shop-info__icon-container'>
+      <div className='header__store-info-location'>
+        <div className='header__store-info-icon-container'>
           <svg
             className='bx-bx-time'
             width={35}
@@ -51,10 +51,10 @@ const WorkTooltip: React.FC = () => {
             />
           </svg>
         </div>
-        <span className='shop-info__text'>1234 Street Address, City Address, 1234</span>
+        <span className='header__store-info-text'>1234 Street Address, City Address, 1234</span>
       </div>
-      <div className='shop-info__contact'>
-        <div className='shop-info__text'>
+      <div className='header__store-info-contact'>
+        <div className='header__store-info-text'>
           <p>
             Phones: <span>(00) 1234 5678</span>
           </p>
@@ -67,4 +67,4 @@ const WorkTooltip: React.FC = () => {
   );
 };
 
-export default WorkTooltip;
+export default StoreInfo;

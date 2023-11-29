@@ -8,4 +8,9 @@ export interface IProduct {
   rating: string;
   reviews_count: number;
   created_at: string;
+  category_id: number;
+}
+
+export interface ProductListResponse {
+  data: IProduct[];
 }

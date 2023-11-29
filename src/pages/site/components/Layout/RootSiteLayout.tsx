@@ -1,7 +1,7 @@
 import Header from './Header';
 import Footer from './Footer';
 import { Outlet } from 'react-router-dom';
-import './SiteLayout.scss';
+import './RootSiteLayout.scss';
 const RootSiteLayout = () => {
   return (
     <div className='main' id='main'>
