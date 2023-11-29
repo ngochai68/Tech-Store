@@ -10,9 +10,14 @@ export interface CategoryCreateResponse {
   categoryId: number;
 }
 
-export interface CategoryListResponse {
+export interface CategoryGetAllResponse {
   message: string;
   data: ICategory[];
+}
+
+export interface CategoryGetResponse {
+  message: string;
+  data: ICategory;
 }
 
 export interface CategoryUpdateResponse {

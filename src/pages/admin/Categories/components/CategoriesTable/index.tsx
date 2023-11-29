@@ -1,7 +1,9 @@
 import React from 'react';
 import { Table, Button, Space, notification } from 'antd';
 import { ColumnType } from 'antd/es/table';
-import moment from 'moment';
+import dayjs from 'dayjs';
+import { useDispatch } from 'react-redux';
+import { openModal, setEditingCategory } from '../../categories.slice';
 import { ICategory } from '../../../../../types/category.type';
 import { useDeleteCategoryMutation } from '../../categories.service';
 
@@ -11,11 +13,12 @@ interface CategoriesTableProps {
 
 const CategoriesTable: React.FC<CategoriesTableProps> = ({ categories }) => {
   const [deleteCategory] = useDeleteCategoryMutation();
+  const dispatch = useDispatch();
 
   // Hàm xử lý khi nhấn nút Chỉnh sửa
   const handleEdit = (categoryId: number) => {
-    console.log('Chỉnh sửa danh mục với ID:', categoryId);
-    // Xử lý chỉnh sửa tại đây
+    dispatch(setEditingCategory(categoryId));
+    dispatch(openModal('edit'));
   };
 
   // Hàm xử lý khi nhấn nút Xóa
@@ -58,8 +61,8 @@ const CategoriesTable: React.FC<CategoriesTableProps> = ({ categories }) => {
       dataIndex: 'created_at',
       align: 'center' as const,
       key: 'created_at',
-      render: (text: string) => moment(text).format('DD/MM/YYYY HH:mm'),
-      sorter: (a, b) => moment(a.created_at).unix() - moment(b.created_at).unix(),
+      render: (text: string) => dayjs(text).format('DD/MM/YYYY HH:mm'),
+      sorter: (a, b) => dayjs(a.created_at).unix() - dayjs(b.created_at).unix(),
       width: '10%'
     },
     {
