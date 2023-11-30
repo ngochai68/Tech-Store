@@ -47,7 +47,7 @@ export const categoriesApi = createApi({
       query: (categoryId) => `/admin/product-categories/${categoryId}`,
       providesTags: (_, __, categoryId) => [{ type: 'Categories', id: categoryId.toString() }]
     }),
-    addCategory: build.mutation<CategoryCreateResponse, Partial<ICategory>>({
+    createCategory: build.mutation<CategoryCreateResponse, Partial<ICategory>>({
       query: (newCategory) => ({
         url: `/admin/product-categories`,
         method: 'POST',
@@ -76,7 +76,7 @@ export const categoriesApi = createApi({
 export const {
   useGetCategoriesQuery,
   useGetCategoryByIdQuery,
-  useAddCategoryMutation,
+  useCreateCategoryMutation,
   useUpdateCategoryMutation,
   useDeleteCategoryMutation
 } = categoriesApi;

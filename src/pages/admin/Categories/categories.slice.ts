@@ -12,15 +12,7 @@ const initialState: CategoriesState = {
   modalCategoryFormAction: null
 };
 
-type CategoriesReducers = {
-  selectCategory: (state: CategoriesState, action: PayloadAction<number>) => void;
-  clearSelectedCategory: (state: CategoriesState) => void;
-  openCategoryFormModal: (state: CategoriesState, action: PayloadAction<'create' | 'edit'>) => void;
-  closeCategoryFormModal: (state: CategoriesState) => void;
-  setEditingCategoryFormModal: (state: CategoriesState, action: PayloadAction<number>) => void;
-};
-
-const categoriesSlice = createSlice<CategoriesState, CategoriesReducers>({
+const categoriesSlice = createSlice({
   name: 'categories',
   initialState,
   reducers: {
@@ -44,6 +36,11 @@ const categoriesSlice = createSlice<CategoriesState, CategoriesReducers>({
   }
 });
 
-export const { selectCategory, clearSelectedCategory, openCategoryFormModal, closeCategoryFormModal, setEditingCategoryFormModal } =
-  categoriesSlice.actions;
+export const {
+  selectCategory,
+  clearSelectedCategory,
+  openCategoryFormModal,
+  closeCategoryFormModal,
+  setEditingCategoryFormModal
+} = categoriesSlice.actions;
 export default categoriesSlice.reducer;

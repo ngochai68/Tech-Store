@@ -3,7 +3,11 @@ import { Modal, Input, Form, Button, message, DatePicker } from 'antd';
 import dayjs from 'dayjs';
 import { useDispatch, useSelector } from 'react-redux';
 import { closeCategoryFormModal } from '../../categories.slice';
-import { useAddCategoryMutation, useUpdateCategoryMutation, useGetCategoryByIdQuery } from '../../categories.service';
+import {
+  useCreateCategoryMutation,
+  useUpdateCategoryMutation,
+  useGetCategoryByIdQuery
+} from '../../categories.service';
 import { RootState } from '../../../../../store/store';
 
 interface ICategoryCreateFormValues {
@@ -21,7 +25,7 @@ const CategoryForm: React.FC = () => {
   const { isCategoryFormModalOpen, modalCategoryFormAction, selectedCategoryId } = useSelector(
     (state: RootState) => state.categories
   );
-  const [addCategory] = useAddCategoryMutation();
+  const [createCategory] = useCreateCategoryMutation();
   const [updateCategory] = useUpdateCategoryMutation();
   const categoryId = selectedCategoryId ?? -1;
   const { data: categoryData, isFetching } = useGetCategoryByIdQuery(categoryId, {
@@ -45,7 +49,7 @@ const CategoryForm: React.FC = () => {
   const handleSubmit = async (values: ICategoryCreateFormValues | ICategoryEditFormValues) => {
     try {
       if (modalCategoryFormAction === 'create') {
-        await addCategory({ category_name: values.category_name }).unwrap();
+        await createCategory({ category_name: values.category_name }).unwrap();
         void message.success('Category added successfully');
       } else if (modalCategoryFormAction === 'edit' && selectedCategoryId !== null) {
         if ('created_at' in values) {

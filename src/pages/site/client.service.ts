@@ -10,14 +10,14 @@ interface ProductsGetLatestResponse {
 export const clientApi = createApi({
   reducerPath: 'clientApi',
   baseQuery: fetchBaseQuery({ baseUrl: `${BACKEND_URL}` }),
-  tagTypes: ['Products'],
+  tagTypes: ['Clients'],
   endpoints: (build) => ({
     getLatestProducts: build.query<ProductsGetLatestResponse, number>({
       query: (count) => `/products/latest/${count}`,
       providesTags: (result) =>
         result
-          ? [...result.newProducts.map(({ product_id }) => ({ type: 'Products' as const, id: product_id.toString() }))]
-          : ['Products']
+          ? [...result.newProducts.map(({ product_id }) => ({ type: 'Clients' as const, id: product_id.toString() }))]
+          : ['Clients']
     })
   })
 });

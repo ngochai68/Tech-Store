@@ -13,7 +13,7 @@ const CategoriesHeader: React.FC = () => {
   return (
     <>
       <h3 className='admin-header__page-title'>Categories</h3>
-      <Button className='admin-header__create-category-button' onClick={handleOpenForm}>
+      <Button className='admin-header__create-button' onClick={handleOpenForm}>
         Create Category
       </Button>
     </>

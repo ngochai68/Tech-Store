@@ -1,15 +1,44 @@
 import React from 'react';
-import { Table } from 'antd';
-import { useGetAllProductsQuery } from '../../products.service';
+import { Table, Button, Space, notification } from 'antd';
+import { useGetAllProductsQuery, useDeleteProductMutation } from '../../products.service';
 import { ColumnType } from 'antd/es/table';
 import { IProduct } from '../../../../../types/product.type';
 import dayjs from 'dayjs';
+import { openProductDrawer, setEditingProduct } from '../../product.slice';
+import { useDispatch } from 'react-redux';
 
 const ProductsTable: React.FC = () => {
   const { data: productsData, error, isLoading } = useGetAllProductsQuery();
+  const [deleteProduct] = useDeleteProductMutation();
+  const dispatch = useDispatch();
 
   if (isLoading) return <div>Đang tải...</div>;
   if (error) return <div>Có lỗi xảy ra</div>;
+
+  const handleEdit = (productId: number) => {
+    dispatch(setEditingProduct(productId));
+    dispatch(openProductDrawer('edit'));
+  };
+
+  const handleDelete = (productId: number) => {
+    deleteProduct(productId)
+      .unwrap()
+      .then(() => {
+        // Hiển thị thông báo thành công
+        notification.success({
+          message: 'Product Deleted',
+          description: `The product with ID ${productId} has been successfully deleted.`
+        });
+      })
+      .catch((error) => {
+        // Hiển thị thông báo lỗi
+        notification.error({
+          message: 'Error Deleting Product',
+          description: `There was an error deleting the product with ID ${productId}.`
+        });
+        console.error('Error deleting product:', error);
+      });
+  };
 
   const columns: ColumnType<IProduct>[] = [
     {
@@ -67,8 +96,17 @@ const ProductsTable: React.FC = () => {
       dataIndex: 'category_id',
       key: 'category_id'
       // Các thuộc tính khác
+    },
+    {
+      title: 'Actions',
+      key: 'actions',
+      render: (_, record: IProduct) => (
+        <Space size='middle'>
+          <Button onClick={() => handleEdit(record.product_id)}>Edit</Button>
+          <Button onClick={() => handleDelete(record.product_id)}>Delete</Button>
+        </Space>
+      )
     }
-    // Bạn có thể thêm các cột khác nếu cần
   ];
 
   return <Table columns={columns} dataSource={productsData?.products} rowKey='product_id' />;
