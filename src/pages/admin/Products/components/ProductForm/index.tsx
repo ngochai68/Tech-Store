@@ -108,12 +108,7 @@ const ProductForm: React.FC = () => {
           <InputNumber
             style={{ width: '100%' }}
             formatter={(value) => {
-              if (value === undefined) {
-                return '';
-              }
-
-              const numericValue = Number(value);
-              return formatPrice(numericValue);
+              return formatPrice(Number(value || 0));
             }}
             parser={(value) => value!.replace(/\$\s?|,/g, '')}
           />
@@ -127,12 +122,7 @@ const ProductForm: React.FC = () => {
           <InputNumber
             style={{ width: '100%' }}
             formatter={(value) => {
-              if (value === undefined) {
-                return '';
-              }
-
-              const numericValue = Number(value);
-              return formatPrice(numericValue);
+              return formatPrice(Number(value || 0));
             }}
             parser={(value) => value!.replace(/\$\s?|,/g, '')}
           />
