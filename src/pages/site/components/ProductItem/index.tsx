@@ -3,6 +3,7 @@ import { InStockIcon, FavoriteIcon, CompareIcon, CheckAvailabilityIcon } from '.
 import { Rate } from 'antd';
 import { StarProductIcon } from '../ProductIcon';
 import { IProduct } from '../../../../types/product.type';
+import { formatPrice } from '../../../../utils/function';
 
 import AddToCartButton from '../Button/AddToCartButton';
 
@@ -18,6 +19,10 @@ const ProductItem: React.FC<ProductItemProps> = ({ productItem }) => {
   const { is_available, title, image_url, rating, reviews_count, original_price, sale_price } = productItem;
 
   const isAvailable = is_available === 1;
+
+  const originalPrice = parseFloat(original_price);
+
+  const salePrice = parseFloat(sale_price);
 
   const numericRating = parseFloat(rating);
 
@@ -47,8 +52,8 @@ const ProductItem: React.FC<ProductItemProps> = ({ productItem }) => {
         </div>
         <div className='product-item__title'>{title}</div>
         <div className='product-item__pricing'>
-          <div className='product-item__original-price'>${original_price}</div>
-          <div className='product-item__sale-price'>${sale_price}</div>
+          <div className='product-item__original-price'>${formatPrice(originalPrice)}</div>
+          <div className='product-item__sale-price'>${formatPrice(salePrice)}</div>
         </div>
         <AddToCartButton />
         <div className='product-item__favorite-compare'>

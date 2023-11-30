@@ -5,6 +5,7 @@ import { ColumnType } from 'antd/es/table';
 import { IProduct } from '../../../../../types/product.type';
 import dayjs from 'dayjs';
 import { openProductDrawer, setEditingProduct } from '../../product.slice';
+import { formatPrice } from '../../../../../utils/function';
 import { useDispatch } from 'react-redux';
 
 const ProductsTable: React.FC = () => {
@@ -56,14 +57,14 @@ const ProductsTable: React.FC = () => {
     {
       title: 'Original Price',
       dataIndex: 'original_price',
-      key: 'original_price'
-      // Các thuộc tính khác
+      key: 'original_price',
+      render: (value: string) => formatPrice(parseFloat(value))
     },
     {
       title: 'Sale Price',
       dataIndex: 'sale_price',
-      key: 'sale_price'
-      // Các thuộc tính khác
+      key: 'sale_price',
+      render: (value: string) => formatPrice(parseFloat(value))
     },
     {
       title: 'Availability',

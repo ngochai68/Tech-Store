@@ -1,10 +1,11 @@
 import React, { useEffect } from 'react';
-import { Drawer, Input, Form, Button, message, DatePicker } from 'antd';
+import { Drawer, Input, Form, Button, message, DatePicker, InputNumber } from 'antd';
 import { useDispatch, useSelector } from 'react-redux';
 import dayjs from 'dayjs';
 import { useCreateProductMutation, useUpdateProductMutation, useGetProductByIdQuery } from '../../products.service';
 import { RootState } from '../../../../../store/store';
 import { closeProductDrawer } from '../../product.slice';
+import { formatPrice } from '../../../../../utils/function';
 
 interface IProductCreateFormValues {
   title: string;
@@ -104,7 +105,18 @@ const ProductForm: React.FC = () => {
           label='Original Price'
           rules={[{ required: true, message: 'Please enter the original price!' }]}
         >
-          <Input />
+          <InputNumber
+            style={{ width: '100%' }}
+            formatter={(value) => {
+              if (value === undefined) {
+                return '';
+              }
+
+              const numericValue = Number(value);
+              return formatPrice(numericValue);
+            }}
+            parser={(value) => value!.replace(/\$\s?|,/g, '')}
+          />
         </Form.Item>
 
         <Form.Item
@@ -112,7 +124,18 @@ const ProductForm: React.FC = () => {
           label='Sale Price'
           rules={[{ required: true, message: 'Please enter the sale price!' }]}
         >
-          <Input />
+          <InputNumber
+            style={{ width: '100%' }}
+            formatter={(value) => {
+              if (value === undefined) {
+                return '';
+              }
+
+              const numericValue = Number(value);
+              return formatPrice(numericValue);
+            }}
+            parser={(value) => value!.replace(/\$\s?|,/g, '')}
+          />
         </Form.Item>
 
         <Form.Item
