@@ -1,25 +1,25 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
 interface ProductsState {
-  selectedCategoryId: number | null;
+  selectedProductId: number | null;
 }
 
 const initialState: ProductsState = {
-  selectedCategoryId: null
+  selectedProductId: null
 };
 
 const productsSlice = createSlice({
   name: 'products',
   initialState,
   reducers: {
-    selectCategory: (state, action: PayloadAction<number>) => {
-      state.selectedCategoryId = action.payload;
+    selectProduct: (state, action: PayloadAction<number>) => {
+      state.selectedProductId = action.payload;
     },
-    clearSelectedCategory: (state) => {
-      state.selectedCategoryId = null;
+    clearSelectedProduct: (state) => {
+      state.selectedProductId = null;
     }
   }
 });
 
-export const { selectCategory, clearSelectedCategory } = productsSlice.actions;
+export const { selectProduct, clearSelectedProduct } = productsSlice.actions;
 export default productsSlice.reducer;

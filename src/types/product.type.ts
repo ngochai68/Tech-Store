@@ -11,6 +11,3 @@ export interface IProduct {
   category_id: number;
 }
 
-export interface ProductListResponse {
-  data: IProduct[];
-}

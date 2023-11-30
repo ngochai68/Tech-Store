@@ -59,7 +59,7 @@ const NewProductSlider: React.FC = () => {
         </Link>
       </div>
       <Slider className='product-slider' {...settings}>
-        {products.data.map((product) => (
+        {products.newProducts.map((product) => (
           <div key={product.product_id}>
             <ProductItem productItem={product} />
           </div>

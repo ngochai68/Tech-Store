@@ -1,13 +1,13 @@
 import React from 'react';
 import { Button } from 'antd';
 import { useDispatch } from 'react-redux';
-import { openModal } from '../../../../../Categories/categories.slice';
+import { openCategoryFormModal } from '../../../../../Categories/categories.slice';
 
 const CategoriesHeader: React.FC = () => {
   const dispatch = useDispatch();
 
   const handleOpenForm = () => {
-    dispatch(openModal('create'));
+    dispatch(openCategoryFormModal('create'));
   };
 
   return (

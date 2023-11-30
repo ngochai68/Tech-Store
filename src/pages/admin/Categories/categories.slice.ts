@@ -2,17 +2,25 @@ import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
 interface CategoriesState {
   selectedCategoryId: number | null;
-  isModalOpen: boolean;
-  modalAction: 'create' | 'edit' | null;
+  isCategoryFormModalOpen: boolean;
+  modalCategoryFormAction: 'create' | 'edit' | null;
 }
 
 const initialState: CategoriesState = {
   selectedCategoryId: null,
-  isModalOpen: false,
-  modalAction: null
+  isCategoryFormModalOpen: false,
+  modalCategoryFormAction: null
 };
 
-const categoriesSlice = createSlice({
+type CategoriesReducers = {
+  selectCategory: (state: CategoriesState, action: PayloadAction<number>) => void;
+  clearSelectedCategory: (state: CategoriesState) => void;
+  openCategoryFormModal: (state: CategoriesState, action: PayloadAction<'create' | 'edit'>) => void;
+  closeCategoryFormModal: (state: CategoriesState) => void;
+  setEditingCategoryFormModal: (state: CategoriesState, action: PayloadAction<number>) => void;
+};
+
+const categoriesSlice = createSlice<CategoriesState, CategoriesReducers>({
   name: 'categories',
   initialState,
   reducers: {
@@ -22,20 +30,20 @@ const categoriesSlice = createSlice({
     clearSelectedCategory: (state) => {
       state.selectedCategoryId = null;
     },
-    openModal: (state, action: PayloadAction<'create' | 'edit'>) => {
-      state.isModalOpen = true;
-      state.modalAction = action.payload;
+    openCategoryFormModal: (state, action: PayloadAction<'create' | 'edit'>) => {
+      state.isCategoryFormModalOpen = true;
+      state.modalCategoryFormAction = action.payload;
     },
-    closeModal: (state) => {
-      state.isModalOpen = false;
-      state.modalAction = null;
+    closeCategoryFormModal: (state) => {
+      state.isCategoryFormModalOpen = false;
+      state.modalCategoryFormAction = null;
     },
-    setEditingCategory: (state, action: PayloadAction<number>) => {
+    setEditingCategoryFormModal: (state, action: PayloadAction<number>) => {
       state.selectedCategoryId = action.payload;
     }
   }
 });
 
-export const { selectCategory, clearSelectedCategory, openModal, closeModal, setEditingCategory } =
+export const { selectCategory, clearSelectedCategory, openCategoryFormModal, closeCategoryFormModal, setEditingCategoryFormModal } =
   categoriesSlice.actions;
 export default categoriesSlice.reducer;

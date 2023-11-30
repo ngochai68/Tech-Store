@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import { Modal, Input, Form, Button, message, DatePicker } from 'antd';
 import dayjs from 'dayjs';
 import { useDispatch, useSelector } from 'react-redux';
-import { closeModal } from '../../categories.slice';
+import { closeCategoryFormModal } from '../../categories.slice';
 import { useAddCategoryMutation, useUpdateCategoryMutation, useGetCategoryByIdQuery } from '../../categories.service';
 import { RootState } from '../../../../../store/store';
 
@@ -18,7 +18,9 @@ interface ICategoryEditFormValues {
 const CategoryForm: React.FC = () => {
   const [form] = Form.useForm();
   const dispatch = useDispatch();
-  const { isModalOpen, modalAction, selectedCategoryId } = useSelector((state: RootState) => state.categories);
+  const { isCategoryFormModalOpen, modalCategoryFormAction, selectedCategoryId } = useSelector(
+    (state: RootState) => state.categories
+  );
   const [addCategory] = useAddCategoryMutation();
   const [updateCategory] = useUpdateCategoryMutation();
   const categoryId = selectedCategoryId ?? -1;
@@ -27,25 +29,25 @@ const CategoryForm: React.FC = () => {
   });
 
   useEffect(() => {
-    if (!isFetching && categoryData && modalAction === 'edit') {
+    if (!isFetching && categoryData && modalCategoryFormAction === 'edit') {
       form.setFieldsValue({
-        category_name: categoryData.data.category_name,
-        created_at: dayjs(categoryData.data.created_at)
+        category_name: categoryData.category.category_name,
+        created_at: dayjs(categoryData.category.created_at)
       });
     }
-  }, [categoryData, isFetching, modalAction, form]);
+  }, [categoryData, isFetching, modalCategoryFormAction, form]);
 
   const handleCancel = () => {
     form.resetFields();
-    dispatch(closeModal());
+    dispatch(closeCategoryFormModal());
   };
 
   const handleSubmit = async (values: ICategoryCreateFormValues | ICategoryEditFormValues) => {
     try {
-      if (modalAction === 'create') {
+      if (modalCategoryFormAction === 'create') {
         await addCategory({ category_name: values.category_name }).unwrap();
         void message.success('Category added successfully');
-      } else if (modalAction === 'edit' && selectedCategoryId !== null) {
+      } else if (modalCategoryFormAction === 'edit' && selectedCategoryId !== null) {
         if ('created_at' in values) {
           await updateCategory({
             ...values,
@@ -57,7 +59,7 @@ const CategoryForm: React.FC = () => {
       } else {
         void message.error('Cannot update category: Invalid ID');
       }
-      dispatch(closeModal());
+      dispatch(closeCategoryFormModal());
       form.resetFields();
     } catch (error) {
       console.error('Failed to submit form:', error);
@@ -71,8 +73,8 @@ const CategoryForm: React.FC = () => {
 
   return (
     <Modal
-      title={modalAction === 'create' ? 'Add New Category' : 'Edit Category'}
-      open={isModalOpen}
+      title={modalCategoryFormAction === 'create' ? 'Add New Category' : 'Edit Category'}
+      open={isCategoryFormModalOpen}
       onCancel={handleCancel}
       footer={null}
     >
@@ -84,7 +86,7 @@ const CategoryForm: React.FC = () => {
         >
           <Input />
         </Form.Item>
-        {modalAction === 'edit' && (
+        {modalCategoryFormAction === 'edit' && (
           <Form.Item name='created_at' label='Creation Date'>
             <DatePicker
               showTime
@@ -96,7 +98,7 @@ const CategoryForm: React.FC = () => {
         )}
         <Form.Item>
           <Button type='primary' htmlType='submit'>
-            {modalAction === 'create' ? 'Add' : 'Update'}
+            {modalCategoryFormAction === 'create' ? 'Add' : 'Update'}
           </Button>
         </Form.Item>
       </Form>

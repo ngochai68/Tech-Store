@@ -3,22 +3,20 @@ import { Table, Button, Space, notification } from 'antd';
 import { ColumnType } from 'antd/es/table';
 import dayjs from 'dayjs';
 import { useDispatch } from 'react-redux';
-import { openModal, setEditingCategory } from '../../categories.slice';
+import { openCategoryFormModal, setEditingCategoryFormModal } from '../../categories.slice';
 import { ICategory } from '../../../../../types/category.type';
-import { useDeleteCategoryMutation } from '../../categories.service';
+import { useDeleteCategoryMutation, useGetCategoriesQuery } from '../../categories.service';
 
-interface CategoriesTableProps {
-  categories: ICategory[];
-}
+const CategoriesTable: React.FC = () => {
+  const { data: categories, error, isLoading } = useGetCategoriesQuery();
 
-const CategoriesTable: React.FC<CategoriesTableProps> = ({ categories }) => {
   const [deleteCategory] = useDeleteCategoryMutation();
   const dispatch = useDispatch();
 
   // Hàm xử lý khi nhấn nút Chỉnh sửa
   const handleEdit = (categoryId: number) => {
-    dispatch(setEditingCategory(categoryId));
-    dispatch(openModal('edit'));
+    dispatch(setEditingCategoryFormModal(categoryId));
+    dispatch(openCategoryFormModal('edit'));
   };
 
   // Hàm xử lý khi nhấn nút Xóa
@@ -41,6 +39,9 @@ const CategoriesTable: React.FC<CategoriesTableProps> = ({ categories }) => {
         console.error('Error deleting category:', error);
       });
   };
+
+  if (isLoading) return <div>Loading...</div>;
+  if (error) return <div>Error occurred</div>;
 
   const columns: ColumnType<ICategory>[] = [
     {
@@ -87,7 +88,7 @@ const CategoriesTable: React.FC<CategoriesTableProps> = ({ categories }) => {
     }
   ];
 
-  return <Table columns={columns} dataSource={categories} rowKey='category_id' />;
+  return <Table columns={columns} dataSource={categories?.categories} rowKey='category_id' />;
 };
 
 export default CategoriesTable;

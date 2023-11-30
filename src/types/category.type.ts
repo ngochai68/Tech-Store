@@ -5,25 +5,4 @@ export interface ICategory {
   product_count: number;
 }
 
-export interface CategoryCreateResponse {
-  message: string;
-  categoryId: number;
-}
 
-export interface CategoryGetAllResponse {
-  message: string;
-  data: ICategory[];
-}
-
-export interface CategoryGetResponse {
-  message: string;
-  data: ICategory;
-}
-
-export interface CategoryUpdateResponse {
-  message: string;
-}
-
-export interface CategoryDeleteResponse {
-  message: string;
-}
