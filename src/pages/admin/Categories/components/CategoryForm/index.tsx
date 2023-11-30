@@ -41,14 +41,19 @@ const CategoryForm: React.FC = () => {
   };
 
   const handleSubmit = async (values: ICategoryCreateFormValues | ICategoryEditFormValues) => {
-    console.log(values);
     try {
       if (modalAction === 'create') {
         await addCategory({ category_name: values.category_name }).unwrap();
         void message.success('Danh mục đã được thêm thành công');
       } else if (modalAction === 'edit' && selectedCategoryId !== null) {
-        await updateCategory({ ...values, category_id: selectedCategoryId,  }).unwrap();
-        void message.success('Danh mục đã được cập nhật thành công');
+        if ('created_at' in values) {
+          await updateCategory({
+            ...values,
+            category_id: selectedCategoryId,
+            created_at: dayjs(values.created_at).format('YYYY-MM-DDTHH:mm:ss.SSSZ')
+          }).unwrap();
+          void message.success('Danh mục đã được cập nhật thành công');
+        }
       } else {
         void message.error('Không thể cập nhật danh mục: ID không hợp lệ');
       }
