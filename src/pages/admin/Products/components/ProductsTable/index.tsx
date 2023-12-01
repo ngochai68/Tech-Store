@@ -1,6 +1,7 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import { Table, Button, Space, notification } from 'antd';
 import { useGetAllProductsQuery, useDeleteProductMutation } from '../../products.service';
+import { useGetCategoriesQuery } from '../../../Categories/categories.service';
 import { ColumnType } from 'antd/es/table';
 import { IProduct } from '../../../../../types/product.type';
 import dayjs from 'dayjs';
@@ -10,8 +11,17 @@ import { useDispatch } from 'react-redux';
 
 const ProductsTable: React.FC = () => {
   const { data: productsData, error, isLoading } = useGetAllProductsQuery();
+  const { data: categoriesData } = useGetCategoriesQuery();
   const [deleteProduct] = useDeleteProductMutation();
   const dispatch = useDispatch();
+
+  const categoryMap: Map<number, string> = useMemo(() => {
+    const map = new Map<number, string>();
+    categoriesData?.categories.forEach((category) => {
+      map.set(category.category_id, category.category_name);
+    });
+    return map;
+  }, [categoriesData]);
 
   if (isLoading) return <div>Đang tải...</div>;
   if (error) return <div>Có lỗi xảy ra</div>;
@@ -58,19 +68,19 @@ const ProductsTable: React.FC = () => {
       title: 'Original Price',
       dataIndex: 'original_price',
       key: 'original_price',
-      render: (value: string) => formatPrice(parseFloat(value))
+      render: (value: string) => `$${formatPrice(parseFloat(value))}`
     },
     {
       title: 'Sale Price',
       dataIndex: 'sale_price',
       key: 'sale_price',
-      render: (value: string) => formatPrice(parseFloat(value))
+      render: (value: string) => `$${formatPrice(parseFloat(value))}`
     },
     {
       title: 'Availability',
       dataIndex: 'is_available',
       key: 'is_available',
-      render: (is_available: number) => (is_available ? 'Available' : 'Not Available')
+      render: (is_available: number) => (is_available ? 'In Stock' : 'Check Availability')
       // Các thuộc tính khác
     },
     {
@@ -93,10 +103,10 @@ const ProductsTable: React.FC = () => {
       // Các thuộc tính khác
     },
     {
-      title: 'Category ID',
+      title: 'Category Name',
       dataIndex: 'category_id',
-      key: 'category_id'
-      // Các thuộc tính khác
+      key: 'category_id',
+      render: (categoryId: number) => categoryMap.get(categoryId) || 'Unknown'
     },
     {
       title: 'Actions',

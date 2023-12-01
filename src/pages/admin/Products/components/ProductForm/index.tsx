@@ -1,11 +1,12 @@
 import React, { useEffect } from 'react';
-import { Drawer, Input, Form, Button, message, DatePicker, InputNumber } from 'antd';
+import { Drawer, Input, Form, Button, message, DatePicker, InputNumber, Select } from 'antd';
 import { useDispatch, useSelector } from 'react-redux';
 import dayjs from 'dayjs';
 import { useCreateProductMutation, useUpdateProductMutation, useGetProductByIdQuery } from '../../products.service';
+import { useGetCategoriesQuery } from '../../../Categories/categories.service';
 import { RootState } from '../../../../../store/store';
 import { closeProductDrawer } from '../../product.slice';
-import { formatPrice } from '../../../../../utils/function';
+import { formatPrice, parseCurrency } from '../../../../../utils/function';
 
 interface IProductCreateFormValues {
   title: string;
@@ -33,6 +34,7 @@ const ProductForm: React.FC = () => {
   const { data: productData, isFetching } = useGetProductByIdQuery(productId, {
     skip: productId === -1
   });
+  const { data: categoriesData } = useGetCategoriesQuery();
 
   useEffect(() => {
     if (!isFetching && productData && drawerProductFormAction === 'edit') {
@@ -107,10 +109,9 @@ const ProductForm: React.FC = () => {
         >
           <InputNumber
             style={{ width: '100%' }}
-            formatter={(value) => {
-              return formatPrice(Number(value || 0));
-            }}
-            parser={(value) => value!.replace(/\$\s?|,/g, '')}
+            min={0}
+            formatter={(value) => `$ ${formatPrice(Number(value || 0))}`}
+            parser={parseCurrency}
           />
         </Form.Item>
 
@@ -121,10 +122,9 @@ const ProductForm: React.FC = () => {
         >
           <InputNumber
             style={{ width: '100%' }}
-            formatter={(value) => {
-              return formatPrice(Number(value || 0));
-            }}
-            parser={(value) => value!.replace(/\$\s?|,/g, '')}
+            min={0}
+            formatter={(value) => `$ ${formatPrice(Number(value || 0))}`}
+            parser={parseCurrency}
           />
         </Form.Item>
 
@@ -141,7 +141,10 @@ const ProductForm: React.FC = () => {
           label='Availability'
           rules={[{ required: true, message: 'Please specify if the product is available!' }]}
         >
-          <Input type='number' min={0} max={1} />
+          <Select>
+            <Select.Option value={1}>In Stock</Select.Option>
+            <Select.Option value={0}>Check Availability</Select.Option>
+          </Select>
         </Form.Item>
 
         <Form.Item
@@ -149,7 +152,7 @@ const ProductForm: React.FC = () => {
           label='Rating'
           rules={[{ required: true, message: 'Please enter the product rating!' }]}
         >
-          <Input />
+          <InputNumber style={{ width: '100%' }} min={0} max={5} step={0.1} />
         </Form.Item>
 
         <Form.Item
@@ -157,7 +160,7 @@ const ProductForm: React.FC = () => {
           label='Reviews Count'
           rules={[{ required: true, message: 'Please enter the reviews count!' }]}
         >
-          <Input type='number' />
+          <InputNumber style={{ width: '100%' }} min={0} step={1} />
         </Form.Item>
 
         {drawerProductFormAction === 'edit' && (
@@ -173,10 +176,16 @@ const ProductForm: React.FC = () => {
 
         <Form.Item
           name='category_id'
-          label='Category ID'
+          label='Category'
           rules={[{ required: true, message: 'Please select a category!' }]}
         >
-          <Input type='number' />
+          <Select placeholder='Select a category'>
+            {categoriesData?.categories.map((category) => (
+              <Select.Option key={category.category_id} value={category.category_id}>
+                {category.category_name}
+              </Select.Option>
+            ))}
+          </Select>
         </Form.Item>
         <Form.Item>
           <Button type='primary' htmlType='submit'>
