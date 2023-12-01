@@ -1,6 +1,7 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 import { BACKEND_URL } from '../../../constant/backend-domain';
 import { IProduct } from '../../../types/product.type';
+import { categoriesApi } from '../Categories/categories.service';
 
 interface ProductGetAllResponse {
   message: string;
@@ -62,7 +63,15 @@ export const productsApi = createApi({
         method: 'POST',
         body: product
       }),
-      invalidatesTags: [{ type: 'Products', id: 'LIST' }]
+      invalidatesTags: [{ type: 'Products', id: 'LIST' }],
+      onQueryStarted: async (_, { dispatch, queryFulfilled }) => {
+        try {
+          await queryFulfilled;
+          dispatch(categoriesApi.util.invalidateTags([{ type: 'Categories', id: 'LIST' }]));
+        } catch (error) {
+          console.error('Lỗi khi cập nhật lại category', error);
+        }
+      }
     }),
     updateProduct: builder.mutation<ProductUpdateResponse, Partial<IProduct> & { product_id: number }>({
       query: ({ product_id, ...product }) => ({
@@ -70,14 +79,30 @@ export const productsApi = createApi({
         method: 'PUT',
         body: product
       }),
-      invalidatesTags: (_, __, { product_id }) => [{ type: 'Products', id: product_id.toString() }]
+      invalidatesTags: (_, __, { product_id }) => [{ type: 'Products', id: product_id.toString() }],
+      onQueryStarted: async (_, { dispatch, queryFulfilled }) => {
+        try {
+          await queryFulfilled;
+          dispatch(categoriesApi.util.invalidateTags([{ type: 'Categories', id: 'LIST' }]));
+        } catch (error) {
+          console.error('Lỗi khi cập nhật lại category', error);
+        }
+      }
     }),
     deleteProduct: builder.mutation<ProductDeleteResponse, number>({
       query: (productId) => ({
         url: `/admin/products/${productId}`,
         method: 'DELETE'
       }),
-      invalidatesTags: [{ type: 'Products', id: 'LIST' }]
+      invalidatesTags: [{ type: 'Products', id: 'LIST' }],
+      onQueryStarted: async (_, { dispatch, queryFulfilled }) => {
+        try {
+          await queryFulfilled;
+          dispatch(categoriesApi.util.invalidateTags([{ type: 'Categories', id: 'LIST' }]));
+        } catch (error) {
+          console.error('Lỗi khi cập nhật lại category', error);
+        }
+      }
     })
   })
 });
