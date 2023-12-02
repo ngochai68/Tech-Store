@@ -7,11 +7,12 @@ import { useCreateProductMutation, useUpdateProductMutation, useGetProductByIdQu
 import { useGetCategoriesQuery } from '../../../Categories/categories.service';
 import { RootState } from '../../../../../store/store';
 import { closeProductDrawer } from '../../product.slice';
-import { formatPrice, parseCurrency } from '../../../../../utils/function';
+import { formatPrice, parseCurrency, urlToFile } from '../../../../../utils/function';
 import { UploadChangeParam } from 'antd/lib/upload';
 
 interface UploadFile extends File {
   originFileObj: File;
+  url?: string;
 }
 
 interface IProductCreateFormValues {
@@ -54,6 +55,24 @@ const ProductForm: React.FC = () => {
         created_at: dayjs(productData.product.created_at),
         category_id: productData.product.category_id
       });
+      const imageName = productData.product.image_url.split('/').pop() || '';
+      if (imageName) {
+        urlToFile(productData.product.image_url, imageName, 'image/jpeg')
+          .then((file) => {
+            form.setFieldsValue({
+              image: [
+                {
+                  uid: '-1',
+                  name: imageName,
+                  status: 'done',
+                  url: productData.product.image_url,
+                  originFileObj: file
+                }
+              ]
+            });
+          })
+          .catch((error) => console.error('Error converting image URL to file:', error));
+      }
     }
   }, [productData, isFetching, drawerProductFormAction, form]);
 
@@ -68,26 +87,28 @@ const ProductForm: React.FC = () => {
       Object.keys(values).forEach((key) => {
         if (key === 'image' && values.image && values.image.length > 0) {
           const file = values.image[0] as unknown as UploadFile;
-          formData.append('image', file.originFileObj);
-        } else if (key !== 'image') {
-          const value = values[key as keyof typeof values];
-          if (typeof value === 'string' || value instanceof Blob) {
-            formData.append(key, value);
-          } else {
-            formData.append(key, String(value));
+          const imageHasChanged =
+            drawerProductFormAction === 'edit' && productData ? productData.product.image_url !== file.url : true;
+
+          if (imageHasChanged) {
+            formData.append('image', file.originFileObj);
           }
+        } else {
+          const value = values[key as keyof typeof values];
+          formData.append(key, typeof value === 'string' || value instanceof Blob ? value : String(value));
         }
       });
 
       if (drawerProductFormAction === 'create') {
         await createProduct(formData).unwrap();
-        void message.success('Category added successfully');
+        void message.success('Product added successfully');
       } else if (drawerProductFormAction === 'edit' && selectedProductId !== null) {
         await updateProduct({ formData, product_id: selectedProductId }).unwrap();
-        void message.success('Category updated successfully');
+        void message.success('Product updated successfully');
       } else {
-        void message.error('Cannot update category: Invalid ID');
+        void message.error('Invalid action or ID');
       }
+
       dispatch(closeProductDrawer());
       form.resetFields();
     } catch (error) {
