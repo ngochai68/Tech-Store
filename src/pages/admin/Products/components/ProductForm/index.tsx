@@ -1,5 +1,6 @@
 import React, { useEffect } from 'react';
-import { Drawer, Input, Form, Button, message, DatePicker, InputNumber, Select } from 'antd';
+import { Drawer, Input, Form, Button, message, DatePicker, InputNumber, Select, Upload } from 'antd';
+import { UploadOutlined } from '@ant-design/icons';
 import { useDispatch, useSelector } from 'react-redux';
 import dayjs from 'dayjs';
 import { useCreateProductMutation, useUpdateProductMutation, useGetProductByIdQuery } from '../../products.service';
@@ -7,13 +8,18 @@ import { useGetCategoriesQuery } from '../../../Categories/categories.service';
 import { RootState } from '../../../../../store/store';
 import { closeProductDrawer } from '../../product.slice';
 import { formatPrice, parseCurrency } from '../../../../../utils/function';
+import { UploadChangeParam } from 'antd/lib/upload';
+
+interface UploadFile extends File {
+  originFileObj: File;
+}
 
 interface IProductCreateFormValues {
   title: string;
   original_price: string;
   sale_price: string;
-  image_url: string;
   is_available: number;
+  image: UploadFile[];
   rating: string;
   reviews_count: number;
   created_at: string;
@@ -42,7 +48,6 @@ const ProductForm: React.FC = () => {
         title: productData.product.title,
         original_price: productData.product.original_price,
         sale_price: productData.product.sale_price,
-        image_url: productData.product.image_url,
         is_available: productData.product.is_available,
         rating: productData.product.rating,
         reviews_count: productData.product.reviews_count,
@@ -59,18 +64,27 @@ const ProductForm: React.FC = () => {
 
   const handleSubmit = async (values: IProductCreateFormValues | IProductEditFormValues) => {
     try {
+      const formData = new FormData();
+      Object.keys(values).forEach((key) => {
+        if (key === 'image' && values.image && values.image.length > 0) {
+          const file = values.image[0] as unknown as UploadFile;
+          formData.append('image', file.originFileObj);
+        } else if (key !== 'image') {
+          const value = values[key as keyof typeof values];
+          if (typeof value === 'string' || value instanceof Blob) {
+            formData.append(key, value);
+          } else {
+            formData.append(key, String(value));
+          }
+        }
+      });
+
       if (drawerProductFormAction === 'create') {
-        await createProduct({ ...values }).unwrap();
+        await createProduct(formData).unwrap();
         void message.success('Category added successfully');
       } else if (drawerProductFormAction === 'edit' && selectedProductId !== null) {
-        if ('created_at' in values) {
-          await updateProduct({
-            ...values,
-            product_id: selectedProductId,
-            created_at: dayjs(values.created_at).format('YYYY-MM-DDTHH:mm:ss.SSSZ')
-          }).unwrap();
-          void message.success('Category updated successfully');
-        }
+        await updateProduct({ formData, product_id: selectedProductId }).unwrap();
+        void message.success('Category updated successfully');
       } else {
         void message.error('Cannot update category: Invalid ID');
       }
@@ -129,11 +143,19 @@ const ProductForm: React.FC = () => {
         </Form.Item>
 
         <Form.Item
-          name='image_url'
-          label='Image URL'
-          rules={[{ required: true, message: 'Please enter the image URL!' }]}
+          name='image'
+          label='Product Image'
+          valuePropName='fileList'
+          getValueFromEvent={(e: UploadChangeParam) => e.fileList}
         >
-          <Input />
+          <Upload
+            name='image'
+            listType='picture'
+            beforeUpload={() => false} // Ngăn chặn tự động tải lên
+            maxCount={1} // Chỉ cho phép một tệp
+          >
+            <Button icon={<UploadOutlined />}>Click to upload (Max: 1)</Button>
+          </Upload>
         </Form.Item>
 
         <Form.Item
