@@ -94,8 +94,13 @@ const ProductForm: React.FC = () => {
             formData.append('image', file.originFileObj);
           }
         } else {
-          const value = values[key as keyof typeof values];
-          formData.append(key, typeof value === 'string' || value instanceof Blob ? value : String(value));
+          if (key === 'created_at' && values.created_at) {
+            const formattedDate = dayjs(values.created_at).format('YYYY-MM-DD HH:mm:ss');
+            formData.append(key, formattedDate);
+          } else {
+            const value = values[key as keyof typeof values];
+            formData.append(key, typeof value === 'string' || value instanceof Blob ? value : String(value));
+          }
         }
       });
 
@@ -168,14 +173,21 @@ const ProductForm: React.FC = () => {
           label='Product Image'
           valuePropName='fileList'
           getValueFromEvent={(e: UploadChangeParam) => e.fileList}
+          rules={[
+            {
+              required: true,
+              message: 'Please upload a product image!',
+              validator: (_, value) => {
+                if (Array.isArray(value) && value.length > 0) {
+                  return Promise.resolve();
+                }
+                return Promise.reject(new Error('Please upload a product image!'));
+              }
+            }
+          ]}
         >
-          <Upload
-            name='image'
-            listType='picture'
-            beforeUpload={() => false} // Ngăn chặn tự động tải lên
-            maxCount={1} // Chỉ cho phép một tệp
-          >
-            <Button icon={<UploadOutlined />}>Click to upload (Max: 1)</Button>
+          <Upload name='image' listType='picture' beforeUpload={() => false} maxCount={1}>
+            <Button icon={<UploadOutlined />}>Click to upload</Button>
           </Upload>
         </Form.Item>
 
