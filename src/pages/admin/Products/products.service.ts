@@ -57,11 +57,11 @@ export const productsApi = createApi({
       query: (id) => `/admin/products/${id}`,
       providesTags: (_, __, id) => [{ type: 'Products', id: id.toString() }]
     }),
-    createProduct: builder.mutation<ProductCreateResponse, Partial<IProduct>>({
-      query: (product) => ({
+    createProduct: builder.mutation<ProductCreateResponse, FormData>({
+      query: (formData) => ({
         url: '/admin/products',
         method: 'POST',
-        body: product
+        body: formData
       }),
       invalidatesTags: [{ type: 'Products', id: 'LIST' }],
       onQueryStarted: async (_, { dispatch, queryFulfilled }) => {
@@ -73,11 +73,11 @@ export const productsApi = createApi({
         }
       }
     }),
-    updateProduct: builder.mutation<ProductUpdateResponse, Partial<IProduct> & { product_id: number }>({
-      query: ({ product_id, ...product }) => ({
+    updateProduct: builder.mutation<ProductUpdateResponse, { formData: FormData; product_id: number }>({
+      query: ({ formData, product_id }) => ({
         url: `/admin/products/${product_id}`,
         method: 'PUT',
-        body: product
+        body: formData
       }),
       invalidatesTags: (_, __, { product_id }) => [{ type: 'Products', id: product_id.toString() }],
       onQueryStarted: async (_, { dispatch, queryFulfilled }) => {
