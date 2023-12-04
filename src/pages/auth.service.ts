@@ -14,7 +14,20 @@ interface LoginResponse {
 
 export const authApi = createApi({
   reducerPath: 'authApi',
-  baseQuery: fetchBaseQuery({ baseUrl: BACKEND_URL }),
+  baseQuery: fetchBaseQuery({
+    baseUrl: BACKEND_URL,
+    prepareHeaders: (headers) => {
+      // Lấy token từ localStorage
+      const token = localStorage.getItem('token');
+
+      // Nếu token tồn tại, thêm nó vào headers
+      if (token) {
+        headers.set('authorization', `Bearer ${token}`);
+      }
+
+      return headers;
+    }
+  }),
   tagTypes: ['Auth'],
   endpoints: (builder) => ({
     registerUser: builder.mutation<RegisterResponse, { username: string; email: string; password: string }>({

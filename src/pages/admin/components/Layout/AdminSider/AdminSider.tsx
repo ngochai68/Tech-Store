@@ -6,9 +6,12 @@ import {
   DesktopOutlined,
   UserOutlined,
   TeamOutlined,
-  FileOutlined
+  FileOutlined,
+  LogoutOutlined
 } from '@ant-design/icons';
 import { useNavigate } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
+import { logout } from '../../../../auth.slice';
 
 const { Sider } = Layout;
 
@@ -31,9 +34,14 @@ function getItem(label: React.ReactNode, key: React.Key, icon?: React.ReactNode,
 const AdminSider: React.FC = () => {
   const [collapsed, setCollapsed] = useState(false);
   const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   const onMenuClick = (e: { key: string }) => {
-    navigate(e.key);
+    if (e.key === 'logout') {
+      dispatch(logout());
+    } else {
+      navigate(e.key);
+    }
   };
 
   const items: MenuItem[] = [
@@ -42,7 +50,8 @@ const AdminSider: React.FC = () => {
     getItem('Products', 'products', <DesktopOutlined />),
     getItem('User', 'sub1', <UserOutlined />, [getItem('Tom', '3'), getItem('Bill', '4'), getItem('Alex', '5')]),
     getItem('Team', 'sub2', <TeamOutlined />, [getItem('Team 1', '6'), getItem('Team 2', '8')]),
-    getItem('Files', '9', <FileOutlined />)
+    getItem('Files', '9', <FileOutlined />),
+    getItem('Logout', 'logout', <LogoutOutlined />)
   ];
 
   return (

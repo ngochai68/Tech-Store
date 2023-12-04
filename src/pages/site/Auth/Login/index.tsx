@@ -22,6 +22,7 @@ const Login: React.FC = () => {
   const handleSubmit = async (values: { email: string; password: string }) => {
     try {
       const response: LoginResponse = await loginUser(values).unwrap();
+      localStorage.setItem('token', response.token);
       dispatch(setCredentials({ token: response.token, userId: response.userId }));
       void message.success('Đăng nhập thành công');
       navigate('/');
