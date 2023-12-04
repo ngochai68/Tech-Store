@@ -7,8 +7,13 @@ import categoriesReducer from '../pages/admin/Categories/categories.slice';
 import { categoriesApi } from '../pages/admin/Categories/categories.service';
 import productsReducer from '../pages/admin/Products/product.slice';
 import { productsApi } from '../pages/admin/Products/products.service';
+import authReducer from '../pages/auth.slice';
+import { authApi } from '../pages/auth.service';
 
 const rootReducer = combineReducers({
+  auth: authReducer,
+  [authApi.reducerPath]: authApi.reducer,
+
   client: clientReducer,
   [clientApi.reducerPath]: clientApi.reducer,
 
@@ -26,6 +31,7 @@ export const store = configureStore({
       clientApi.middleware,
       categoriesApi.middleware,
       productsApi.middleware,
+      authApi.middleware,
       rtkQueryErrorLogger
     )
 });

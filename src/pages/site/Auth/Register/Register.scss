@@ -1,0 +1,26 @@
+.register-card {
+  width: 350px;
+  margin: 50px auto;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+
+  .register-form {
+    .form-item {
+      margin-bottom: 20px;
+
+      .input-field {
+        border-radius: 4px;
+        padding: 8px;
+      }
+    }
+
+    .submit-button {
+      width: 100%;
+      background-color: #1890ff;
+      border-color: #1890ff;
+      &:hover {
+        background-color: darken(#1890ff, 5%);
+        border-color: darken(#1890ff, 5%);
+      }
+    }
+  }
+}

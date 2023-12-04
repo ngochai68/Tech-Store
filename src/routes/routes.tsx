@@ -5,6 +5,8 @@ import Home from '../pages/site/Home';
 import Dashboard from '../pages/admin/Dashboard';
 import Categories from '../pages/admin/Categories';
 import Products from '../pages/admin/Products';
+import Register from '../pages/site/Auth/Register';
+import Login from '../pages/site/Auth/Login';
 
 const router = createBrowserRouter([
   {
@@ -16,6 +18,14 @@ const router = createBrowserRouter([
         element: <Home />
       }
     ]
+  },
+  {
+    path: '/register',
+    element: <Register />
+  },
+  {
+    path: '/login',
+    element: <Login />
   },
   {
     path: '/admin',
